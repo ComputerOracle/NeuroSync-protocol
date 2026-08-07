@@ -10,7 +10,7 @@
 [![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-Random_Forest-F7931E?style=for-the-badge&logo=scikit-learn)](https://scikit-learn.org)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 
-[Live Demo](#) • [Video Walkthrough](#) • [Architecture](#️-system-architecture) • [Smart Contracts](#-deployed-smart-contract-infrastructure) • [Quickstart](#-getting-started)
+[Live Demo](https://neurosync-protocol.vercel.app/) • [API Endpoint](https://neurosync-protocol.onrender.com) • [Architecture](#️-system-architecture) • [Smart Contracts](#-deployed-smart-contract-infrastructure) • [Quickstart](#-getting-started)
 
 </div>
 
@@ -21,6 +21,13 @@
 **NeuroSync Protocol** bridges off-chain biometric sleep telemetry with on-chain cryptographic rewards on the Stellar network. Users log daily sleep parameters—including duration, heart rate variability (HRV), resting heart rate (RHR), step count, and stress indices. 
 
 An off-chain **Machine Learning Oracle** validates the biometric integrity using a trained Scikit-Learn Random Forest classifier, generates an Ed25519 cryptographic signature, and submits the proof through a **Gas Master Relayer**. The relayer sponsors all Stellar transaction fees (0 XLM cost to the user), executing streak recording and `$NSYNC` token distributions on Soroban smart contracts.
+
+---
+
+## 🌐 Live Deployments
+
+- 📱 **Live Web Application (Vercel)**: [https://neurosync-protocol.vercel.app/](https://neurosync-protocol.vercel.app/)
+- ⚡ **Backend Oracle & Relayer API (Render)**: [https://neurosync-protocol.onrender.com](https://neurosync-protocol.onrender.com)
 
 ---
 
