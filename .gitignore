@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Rust / Soroban
+target/
+neurosync-core/target/
+
+# Next.js / Build
+.next/
+frontend/.next/
+out/
+build/
+dist/
+
+# Environment & Secrets
+.env
+.env.local
+frontend/.env.local
+.oracle_secret
+.relayer_secret
+
+# Logs & Temporary
+*.log
+uvicorn.log
+
+# System / Editor
+.DS_Store
+*.swp

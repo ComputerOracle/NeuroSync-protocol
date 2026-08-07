@@ -1,0 +1,7 @@
+fastapi
+stellar-sdk
+scikit-learn
+pandas
+numpy
+joblib
+pydantic
