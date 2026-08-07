@@ -1,4 +1,5 @@
 fastapi
+uvicorn[standard]
 stellar-sdk
 scikit-learn
 pandas
