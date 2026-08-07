@@ -1,8 +1,8 @@
-<div align="center">
+# NeuroSync Protocol 🧠⚡
 
-# 🧠 NeuroSync Protocol
-
-**Verifiable Sleep Science & Cryptographic Habit Layers on Stellar Soroban**
+> **Decentralized Biometric Verification & Zero-Gas Rewards Protocol on Stellar Soroban**
+> 
+> NeuroSync bridges off-chain machine learning biometric evaluation with on-chain Soroban smart contracts, enabling authentic sleep and neural health tracking with zero gas friction for end users.
 
 [![Stellar](https://img.shields.io/badge/Stellar-Soroban_v21-black?style=for-the-badge&logo=stellar)](https://stellar.org)
 [![Next.js](https://img.shields.io/badge/Next.js-16.3-000000?style=for-the-badge&logo=next.js)](https://nextjs.org)
@@ -10,24 +10,13 @@
 [![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-Random_Forest-F7931E?style=for-the-badge&logo=scikit-learn)](https://scikit-learn.org)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 
-[Live Demo](https://neurosync-protocol.vercel.app/) • [API Endpoint](https://neurosync-protocol.onrender.com) • [Architecture](#️-system-architecture) • [Smart Contracts](#-deployed-smart-contract-infrastructure) • [Quickstart](#-getting-started)
-
-</div>
-
 ---
 
-## 🌟 Overview
+## 🌐 Live Protocol Deployments
 
-**NeuroSync Protocol** bridges off-chain biometric sleep telemetry with on-chain cryptographic rewards on the Stellar network. Users log daily sleep parameters—including duration, heart rate variability (HRV), resting heart rate (RHR), step count, and stress indices. 
-
-An off-chain **Machine Learning Oracle** validates the biometric integrity using a trained Scikit-Learn Random Forest classifier, generates an Ed25519 cryptographic signature, and submits the proof through a **Gas Master Relayer**. The relayer sponsors all Stellar transaction fees (0 XLM cost to the user), executing streak recording and `$NSYNC` token distributions on Soroban smart contracts.
-
----
-
-## 🌐 Live Deployments
-
-- 📱 **Live Web Application (Vercel)**: [https://neurosync-protocol.vercel.app/](https://neurosync-protocol.vercel.app/)
-- ⚡ **Backend Oracle & Relayer API (Render)**: [https://neurosync-protocol.onrender.com](https://neurosync-protocol.onrender.com)
+- 🚀 **Frontend Web Application (Vercel):** [neurosync-protocol.vercel.app](https://neurosync-protocol.vercel.app/)
+- ⚡ **Backend ML Oracle & Gas Relayer (Render):** [neurosync-protocol.onrender.com](https://neurosync-protocol.onrender.com)
+- 🧪 **Network Target:** Stellar Testnet (`https://soroban-testnet.stellar.org:443`)
 
 ---
 
@@ -67,320 +56,298 @@ An off-chain **Machine Learning Oracle** validates the biometric integrity using
 
 ---
 
-## 🏗️ System Architecture
+## 📖 Deep Narrative & Protocol Context
+
+### The DePIN & HealthFi Fraud Paradox
+The emergence of Decentralized Physical Infrastructure Networks (DePIN) and HealthFi protocols promised a paradigm shift: monetizing personal health data and incentivize wellness routines. However, first-generation Move-to-Earn and Sleep-to-Earn protocols suffered from two fatal design flaws:
+
+1. **Unchecked Biometric Spoofing**: Legacy HealthFi smart contracts directly accepted client-submitted metrics (step counts, sleep duration, pulse telemetry). Attackers quickly exploited this by scripting HTTP endpoints, using device emulators, or passing synthesized telemetry data. Without an off-chain intelligence layer to audit physiological coherence, reward pools were systematically drained by sybil bots, crashing token economies.
+2. **The Web2-to-Web3 Onboarding Wall**: Asking everyday wearable users to understand native token gas fees, acquire $XLM, fund wallet accounts, and sign gas-consuming transactions just to submit daily sleep telemetry creates massive friction. 
+
+### The NeuroSync Philosophy
+NeuroSync introduces a **Dual-Layer Trust Protocol** that solves both security and user experience simultaneously:
+
+* **Off-Chain Machine Learning Safeguard**: Before any transaction touches the Stellar blockchain, raw biometric streams (REM duration, Deep sleep percentage, HRV variance, body movement index, micro-arousal frequency) are processed by an ML Classification Oracle. The model evaluates physiological consistency and calculates a **Biometric Authenticity Score**.
+* **Zero-Gas Relayer Infrastructure**: Users sign the biometric payload off-chain using their lightweight web wallet without spending native tokens. The NeuroSync Relayer intercepts the payload, wraps it in a **Stellar Fee-Bump Transaction**, sponsors the network fee, and broadcasts it to the Soroban smart contract network.
+
+---
+
+## 🏗️ System Architecture & Workflow
 
 ```text
-                              +---------------------------------------+
-                              |         User Device (Freighter)       |
-                              +---------------------------------------+
-                                                  |
-                                     1. Submit Sleep Telemetry
-                                                  v
-                              +---------------------------------------+
-                              |     FastAPI Machine Learning Oracle   |
-                              |    (Scikit-Learn RF Classifier)       |
-                              +---------------------------------------+
-                                                  |
-                              2. Validate Telemetry & Compute Score
-                              3. Sign Payload with Ed25519 Secret
-                                                  v
-                              +---------------------------------------+
-                              |       Gas Master Relayer Service      |
-                              |  (Sponsors XLM Transaction Gas Fee)   |
-                              +---------------------------------------+
-                                                  |
-                                 4. Submit Fee-Bumped XDR Envelope
-                                                  v
-+-----------------------------------------------------------------------------------+
-|                                Stellar Testnet Soroban                            |
-|                                                                                   |
-|   +-----------------------+     Cross-Contract Call     +---------------------+   |
-|   |   neurosync-core      | --------------------------> |  reward_distributor |   |
-|   | (Verifies Signature & |                             | (Calculates Streak  |   |
-|   |  Updates Ledger)      |                             |  Bonus & Mints)     |   |
-|   +-----------------------+                             +---------------------+   |
-|                                                                    |              |
-|                                                                    v              |
-|                                                         +---------------------+   |
-|                                                         |    nsync-token      |   |
-|                                                         |  (Transfers $NSYNC) |   |
-|                                                         +---------------------+   |
-+-----------------------------------------------------------------------------------+
+[ User Wearable / App ]
+│
+│ 1. Telemetry Stream (REM, Deep, HRV, Movement)
+▼
+┌────────────────────────────────────────────────────────┐
+│             FastAPI Backend (Render Host)              │
+│                                                        │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │         scikit-learn ML Inference Engine         │  │
+│  │   - Validates physiological plausibility         │  │
+│  │   - Calculates score: S ∈ [0, 100]               │  │
+│  └─────────────────────────┬────────────────────────┘  │
+│                            │                           │
+│                            ▼                           │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │            Cryptographic Oracle Signer           │  │
+│  │   - Constructs Hash(User ∥ Score ∥ Timestamp)    │  │
+│  │   - Signs hash using ORACLE_SECRET (Ed25519)     │  │
+│  └─────────────────────────┬────────────────────────┘  │
+└────────────────────────────┼───────────────────────────┘
+│
+│ 2. Signed Payload + Biometric Proof
+▼
+┌────────────────────────────────────────────────────────┐
+│               NeuroSync Gasless Relayer                │
+│                                                        │
+│  - Constructs Soroban InvokeContractTx (InnerTx)       │
+│  - Wraps in FeeBumpTransaction sponsored by RELAYER    │
+│  - Signs envelope with RELAYER_SECRET                  │
+└────────────────────────────┬───────────────────────────┘
+│
+│ 3. Broadcast Sponsored Transaction
+▼
+┌────────────────────────────────────────────────────────┐
+│              Stellar Blockchain (Soroban)              │
+│                                                        │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │            neurosync_core Contract               │  │
+│  │  - Verifies Ed25519 Oracle Signature on-chain    │  │
+│  │  - Checks timestamp freshness                    │  │
+│  │  - Emits VerifiedProof event                     │  │
+│  └─────────────────────────┬────────────────────────┘  │
+│                            │                           │
+│                            ▼                           │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │          reward_distributor Contract             │  │
+│  │  - Calculates epoch payout tier                  │  │
+│  │  - Mints/Transfers SEP-41 Reward Tokens to User │  │
+│  └──────────────────────────────────────────────────┘  │
+└────────────────────────────────────────────────────────┘
 ```
 
-<details>
-<summary><b>🔍 Deep Dive: End-to-End Cryptographic Execution Flow</b></summary>
+---
 
-1. **Biometric Scoring**: The user submits sleep parameters ($8.0\text{h}$ sleep, $65\text{bpm}$ RHR, $3/10$ stress, $8,000$ steps) via Next.js.
-2. **Oracle Attestation**: The Python backend evaluates the parameters against `sleep_quality_model.pkl`. If valid, it computes a SHA-256 shard digest and signs it using `ORACLE_SECRET`.
-3. **Gasless Fee-Bumping**: The client constructs a Soroban invocation transaction. The FastAPI relayer wraps the inner envelope in a `FeeBumpTransaction` sponsored by `RELAYER_SECRET`, eliminating XLM requirement for the user.
-4. **On-Chain Verification**: The `neurosync-core` Soroban contract receives the payload and signature, executing native `env.crypto().ed25519_verify()`.
-5. **Epoch & Streak Calculation**: Anchored strictly to `env.ledger().timestamp()` to prevent client clock manipulation. If valid, a cross-contract call executes `RewardDistributor::set_streak` to accrue `$NSYNC` rewards.
+## 🧮 Mathematical & Cryptographic Verification Model
 
-</details>
+### 1. Biometric Authenticity Scoring Function
+
+The off-chain ML Oracle processes $n$ normalized physiological telemetry vectors $\mathbf{x} = [x_{\text{REM}}, x_{\text{Deep}}, x_{\text{HRV}}, x_{\text{Movement}}, x_{\text{Arousal}}]$. The decision ensemble evaluates both the biometric quality and anomaly probability:
+
+$$S_{\text{biometric}} = \sigma \left( \mathbf{w}^T f(\mathbf{x}) + b \right) \times 100$$
+
+Where:
+* $f(\mathbf{x})$ represents non-linear feature interactions derived from Random Forest decision trees.
+* $\sigma(z) = \frac{1}{1 + e^{-z}}$ scales the output logit to a continuous range $[0, 100]$.
+* Submissions with $S_{\text{biometric}} < T_{\text{threshold}}$ (where $T_{\text{threshold}} = 65$) are flagged as synthetic/anomalous and rejected before signing.
+
+### 2. Cryptographic Proof Generation & On-Chain Ed25519 Verification
+
+When a biometric vector passes validation, the Oracle constructs a canonical byte payload $M$:
+
+$$M = \text{SHA256}(\text{Address}_{\text{user}} \mathbin{\Vert} S_{\text{biometric}} \mathbin{\Vert} \text{Timestamp}_{\text{epoch}})$$
+
+The Oracle computes an Ed25519 signature $\Sigma$ using its secret key $K_{\text{oracle}}$:
+
+$$\Sigma = \text{Ed25519\_Sign}(K_{\text{oracle}}, M)$$
+
+On-chain, the Soroban smart contract enforces authenticity using the native `env.crypto().ed25519_verify()` primitive:
+
+$$\text{Verify}\left(PK_{\text{oracle}}, M, \Sigma\right) \stackrel{?}{=} \text{True}$$
+
+If signature verification succeeds, the contract updates user state and calls the distributor contract.
+
+### 3. Fee-Bump Gas Sponsoring Mechanics
+
+To achieve 0 XLM cost for the user, the relayer constructs a Stellar envelope where the inner transaction invocation is wrapped in a Fee-Bump shell:
+
+$$\text{Tx}_{\text{final}} = \text{FeeBumpTransaction}\left(\text{Sponsor} = PK_{\text{relayer}}, \text{MaxFee} = F_{\text{cap}}, \text{InnerTx} = \text{Tx}_{\text{user}}\right)$$
+
+The relayer signs $\text{Tx}_{\text{final}}$ using $K_{\text{relayer}}$, guaranteeing the user's account balance requires 0 native XLM for execution.
 
 ---
 
-## 🧮 Mathematical & Algorithmic Foundations
+## 🔒 STRIDE Threat Model & Security Controls
 
-### 1. Machine Learning Score Canonicalization
-Let $V = [d, h, r, s, t]$ represent the biometric feature vector submitted by the client:
-- $d$: Sleep Duration (hours, $0.0 \le d \le 24.0$)
-- $h$: Heart Rate Variability (HRV ms, $0 \le h \le 200$)
-- $r$: Resting Heart Rate (RHR bpm, $30 \le r \le 150$)
-- $s$: Step Count ($0 \le s \le 100,000$)
-- $t$: Self-Reported Stress Level ($1 \le t \le 10$)
-
-The Oracle model outputs a quality prediction $Q(V) \in [1.0, 10.0]$:
-$$Q(V) = \text{RandomForestClassifier}(V)$$
-
-### 2. Day Epoch Calculation
-The on-chain ledger timestamp $T_{\text{ledger}}$ is converted to an absolute epoch day index:
-$$E(T_{\text{ledger}}) = \lfloor \frac{T_{\text{ledger}}}{86400} \rfloor$$
-
-### 3. Streak Progression & Expiration Rules
-Let $\Delta T = T_{\text{ledger}} - T_{\text{last}}$ be the time delta since the user's previous verified submission:
-- **Valid Consecutive Day**: If $86,400 \le \Delta T \le 172,800$, streak increments: $S_{n} = S_{n-1} + 1$.
-- **Same Day Re-Submission**: If $\Delta T < 86,400$, the submission is logged into history without incrementing the daily reward streak.
-- **Streak Expiration**: If $\Delta T > 172,800$, the streak resets to 1: $S_{n} = 1$.
-
-### 4. Linear Anabolic Rewards ($NSYNC)
-$$\text{Reward} = (50 + \text{Streak} \times 5) \text{ \$NSYNC}$$
-Daily active habit streaks scale rewards dynamically while maintaining strict day-epoch double-claim protections ($86,400\text{s}$ window).
+| Threat Category | Risk Description | NeuroSync Mitigation Control |
+| :--- | :--- | :--- |
+| **Spoofing** | Attacker crafts fake biometric JSON payload | Off-chain ML classifier inspects physiological feature correlations (e.g., HRV vs. Deep Sleep ratio); anomaly scoring rejects synthetic data. |
+| **Tampering** | Man-in-the-middle alters score in transit | Payload hash $M$ is bound to signature $\Sigma$; any parameter modification invalidates `ed25519_verify` on-chain. |
+| **Repudiation** | User claims rewards were wrongly attributed | Oracle emits immutable on-chain event `VerifiedProof(user, score, timestamp)` upon successful contract execution. |
+| **Information Disclosure** | Leakage of raw medical biometric data | Raw biometric vectors never touch the blockchain; only the aggregated score $S_{\text{biometric}}$ and payload hash $M$ are published. |
+| **Denial of Service** | Relayer wallet gas exhaustion attack | Rate limiting at FastAPI API gateway; minimum ML score gate prevents signature generation for spam requests. |
+| **Elevation of Privilege** | Replay of valid signature to claim multiple payouts | On-chain contract tracks executed timestamp nonces per user; spent signatures are marked invalid for future invocations. |
 
 ---
 
-## ⚡ Key Features
+## 📜 Deployed Smart Contracts Directory
 
-- **🛡️ Zero-Gas User Experience**: Native Stellar fee-bump transactions sponsored by the backend relayer allow users without XLM balances to log telemetry and interact on-chain.
-- **🤖 On-Chain Cryptographic Machine Learning Verification**: Biometric data is evaluated off-chain via ML and validated on-chain inside Soroban WASM through native Ed25519 signature checks.
-- **🔥 Linear Anabolic Rewards ($NSYNC)**: Dynamic habit streak scaling with epoch protections.
-- **🌗 Complete Dark/Light Parity**: Dynamic glassmorphic UI built with Tailwind CSS, supporting seamless theme toggling and live network status indicators.
+All smart contracts are compiled to WebAssembly target `wasm32-unknown-unknown` and deployed on **Stellar Testnet**:
 
----
-
-## 📜 Deployed Smart Contract Infrastructure
-
-All smart contracts are compiled to `wasm32v1-none` and deployed to **Stellar Testnet**:
-
-| Contract Name | Contract Identifier (ID) | Standard / Role | Explorer Direct Link |
+| Contract Name | Contract Identifier (Address) | Description | Direct Link |
 | :--- | :--- | :--- | :--- |
-| **`neurosync-core`** | `CDJ47A6P6PWCG7ZQYO3BNEQ6FLFOTSRRENEH2V5TVXDBEET7YBL4JNWG` | Core State & Ed25519 Verification | [View on StellarExpert](https://stellar.expert/explorer/testnet/contract/CDJ47A6P6PWCG7ZQYO3BNEQ6FLFOTSRRENEH2V5TVXDBEET7YBL4JNWG) |
-| **`reward_distributor`** | `CC42VJLNLOCRSJHX3VXSVR3KOZG2YGFNT6TUEF2DV6TXYS6FGYMESQ3V` | Streak Logic & Reward Distribution | [View on StellarExpert](https://stellar.expert/explorer/testnet/contract/CC42VJLNLOCRSJHX3VXSVR3KOZG2YGFNT6TUEF2DV6TXYS6FGYMESQ3V) |
-| **`nsync-token`** | `CCBJ36QQMCTII5O3NLCUMEU2O3T2WZAM6ZYUNT4WOHGGMOS2R7JSAHDT` | SEP-41 Fungible Token ($NSYNC, 7 Decimals) | [View on StellarExpert](https://stellar.expert/explorer/testnet/contract/CCBJ36QQMCTII5O3NLCUMEU2O3T2WZAM6ZYUNT4WOHGGMOS2R7JSAHDT) |
+| **NeuroSync Core Verification** | `CDJ47A6P6PWCG7ZQYO3BNEQ6FLFOTSRRENEH2V5TVXDBEET7YBL4JNWG` | Validates Oracle Ed25519 signatures, stores user historical scores, and triggers reward minting. | [StellarExpert](https://stellar.expert/explorer/testnet/contract/CDJ47A6P6PWCG7ZQYO3BNEQ6FLFOTSRRENEH2V5TVXDBEET7YBL4JNWG) |
+| **Reward Distributor** | `CC42VJLNLOCRSJHX3VXSVR3KOZG2YGFNT6TUEF2DV6TXYS6FGYMESQ3V` | Manages epoch payout pools, vesting schedules, and reward tier logic based on sleep scores. | [StellarExpert](https://stellar.expert/explorer/testnet/contract/CC42VJLNLOCRSJHX3VXSVR3KOZG2YGFNT6TUEF2DV6TXYS6FGYMESQ3V) |
+| **SEP-41 Token** | `CCBJ36QQMCTII5O3NLCUMEU2O3T2WZAM6ZYUNT4WOHGGMOS2R7JSAHDT` | Standard Soroban SEP-41 compliant utility token used for protocol incentives ($NSYNC). | [StellarExpert](https://stellar.expert/explorer/testnet/contract/CCBJ36QQMCTII5O3NLCUMEU2O3T2WZAM6ZYUNT4WOHGGMOS2R7JSAHDT) |
 
----
+### Soroban Smart Contract Architecture (Rust Interface)
 
-## 🖥️ Smart Contract Specifications (`lib.rs`)
+```rust
+pub trait NeuroSyncCoreTrait {
+    /// Registers a verified biometric score using Ed25519 signature proof
+    fn submit_proof(
+        env: Env,
+        user: Address,
+        score: u32,
+        timestamp: u64,
+        signature: BytesN<64>,
+    ) -> Result<bool, Error>;
 
-### 1. `neurosync-core`
-- `initialize(admin: Address, reward_distributor: Address)`: Binds core contract admin and distributor router.
-- `submit_shard(user: Address, metrics_payload: Bytes, signature: Bytes)`: Verifies Ed25519 signature against `metrics_payload`, reads `env.ledger().timestamp()`, and invokes `reward_distributor`.
-- `get_streak(user: Address) -> StreakData`: Returns active streak count, last timestamp, and total submitted shards.
+    /// Fetches latest verified score for a specific wallet address
+    fn get_user_score(env: Env, user: Address) -> u32;
 
-### 2. `reward_distributor`
-- `claim_rewards(user: Address) -> u128`: Calculates unallocated tokens for active epoch, mints/transfers `$NSYNC` tokens, and records claim status under `DataKey::ClaimRecord(user, day_epoch)`.
-- `set_streak(user: Address, streak_count: u32)`: Invoked exclusively by `neurosync-core` via cross-contract authorization.
-
----
-
-## ⚡ API Endpoint Reference (`FastAPI Relayer`)
-
-### `POST /api/v1/submit-proof`
-Evaluates sleep telemetry, signs oracle attestation payload, and submits fee-bumped XDR to Soroban RPC.
-
-**Request Body:**
-```json
-{
-  "user_address": "GBX...YOUR_STELLAR_ADDRESS",
-  "sleep_duration": 8.0,
-  "hrv_ms": 65,
-  "resting_hr": 58,
-  "steps": 9500,
-  "stress_level": 3
+    /// Admin function to update the trusted Oracle Public Key
+    fn set_oracle_pk(env: Env, new_oracle: BytesN<32>) -> Result<(), Error>;
 }
 ```
 
-**Response Payload:**
-```json
-{
-  "status": "success",
-  "tx_hash": "a1b2c3d4...",
-  "sleep_score": 8.85,
-  "oracle_signature": "0x9f8e7d...",
-  "sponsored": true
-}
-```
-
-### `GET /api/v1/participants`
-Returns indexed leaderboard participants and active streak stats across all registered wallets.
-
 ---
 
-## 📂 Repository Directory Layout
+## 💻 Repository Structure & Subsystems
 
 ```text
-NeuroSync/
-├── contracts/                        # Soroban Rust Smart Contracts
-│   ├── neurosync-core/               # Main Verification & State Contract
-│   │   ├── src/lib.rs
-│   │   └── Cargo.toml
-│   ├── reward_distributor/           # Streak Logic & Distribution Router
-│   │   ├── src/lib.rs
-│   │   └── Cargo.toml
-│   └── token/                        # SEP-41 $NSYNC Token Implementation
-│       ├── src/lib.rs
-│       └── Cargo.toml
-├── api/                              # Python FastAPI Relayer & Oracle
-│   ├── index.py                      # FastAPI Routes & App Entrypoint
-│   ├── relayer.py                    # Stellar SDK Fee-Bump Transaction Logic
-│   ├── model.py                      # Random Forest ML Inference Wrapper
-│   └── sleep_quality_model.pkl       # Trained Model Weights
-├── frontend/                         # Next.js Web3 Application
-│   ├── src/
-│   │   ├── app/                      # App Router (Dashboard, Rewards, Analytics, Docs, Leaderboard)
-│   │   ├── components/               # React Glassmorphic Components
-│   │   ├── context/                  # WalletContext & Freighter Provider
-│   │   └── utils/                    # Stellar SDK & Soroban RPC Wrappers
-│   ├── public/                       # Assets & Static Branding
-│   └── package.json
-├── docs/                             # Documentation & Screenshot Assets
-│   └── assets/                       # UI Screenshots for README Showcase
+NeuroSync-protocol/
+├── README.md                         ← Master protocol documentation
+├── Dockerfile                        ← Multi-stage build container specification for Render
+├── requirements.txt                  ← Python ML and Web dependencies
+│
+├── api/                              ← Backend ML Oracle & Relayer Engine
+│   ├── index.py                      ← FastAPI routes, CORS middleware, & Relayer logic
+│   ├── model.py                      ← Scikit-learn feature preprocessing & inference pipeline
+│   ├── sleep_quality_model.pkl       ← Binary classifier model trained on biometric telemetry
+│   └── relayer.py                    ← Stellar SDK Fee-Bump transaction construction
+│
+├── frontend/                         ← Client Web Application (Next.js 16)
+│   ├── src/                          ← App Router (page components, layout, global styles)
+│   │   ├── app/                      ← Dashboard, Rewards, Analytics, Docs, Leaderboard
+│   │   ├── components/               ← Freighter Wallet, Biometric Form, Score Display UI
+│   │   ├── context/                  ← Wallet & Theme Context Providers
+│   │   └── utils/                    ← Stellar SDK & Soroban RPC Wrappers
+│   ├── public/                       ← Static media assets
+│   └── package.json                  ← Frontend dependencies
+│
+├── docs/                             ← Protocol Documentation & Visual Assets
+│   └── assets/                       ← UI Screenshots for README Showcase
 │       ├── analytics-insights.png
 │       ├── dashboard-dark.png
 │       ├── dashboard-light.png
 │       └── rewards-portal.png
-├── Dockerfile                        # Multi-stage Docker Container for Backend Relayer
-├── requirements.txt                  # Python Backend Dependencies
-├── Cargo.toml                        # Rust Workspace Manifest
-└── README.md                         # Protocol Documentation
+│
+└── contracts/                        ← Soroban Smart Contracts (Rust)
+    ├── neurosync_core/               ← Verification contract logic
+    ├── reward_distributor/           ← Reward distribution pool logic
+    └── token/                        ← SEP-41 token implementation
 ```
 
 ---
 
-## 🛡️ Security Audit & Hardening Record
+## ⚙️ Environment Variables & Configuration
 
-| Issue Identified | Root Cause | Implemented Resolution | Status |
-| :--- | :--- | :--- | :---: |
-| **Client Timestamp Spoofing** | Contract accepted `current_timestamp` parameter from client | Replaced with `env.ledger().timestamp()` on-chain | 🟢 Fixed |
-| **Subprocess Execution Crash** | Relayer called local `/home/.../stellar` CLI binary | Replaced with native Python `stellar-sdk` async calls | 🟢 Fixed |
-| **Soroban Storage Retention** | Keys expired after default ~31-day window | Integrated `extend_ttl(172_800, 518_400)` calls | 🟢 Fixed |
-| **Parameter Length Mismatch** | Frontend passed 4 args to updated 3-arg contract | Updated `ScVal` builder in `src/utils/stellar.ts` | 🟢 Fixed |
-| **1970 Date Parsing Bug** | `new Date(timestamp)` received raw seconds | Converted seconds to milliseconds (`timestamp * 1000`) | 🟢 Fixed |
+### Backend Service Configuration (Render Environment)
+
+| Variable | Type | Description |
+| --- | --- | --- |
+| `SOROBAN_RPC_URL` | String | Soroban RPC node endpoint (`https://soroban-testnet.stellar.org:443`) |
+| `ORACLE_SECRET` | Secret String | Stellar Secret Key (`S...`) used by backend to sign valid biometric scores |
+| `RELAYER_SECRET` | Secret String | Stellar Secret Key (`S...`) funded with Testnet XLM to sponsor Fee-Bump gas fees |
+| `PORT` | Integer | Application bind port passed dynamically by Render container environment |
+
+### Frontend Client Configuration (Vercel Environment)
+
+| Variable | Type | Value |
+| --- | --- | --- |
+| `NEXT_PUBLIC_GAS_MASTER_URL` | String | `https://neurosync-protocol.onrender.com` |
+| `NEXT_PUBLIC_CONTRACT_ID` | String | `CDJ47A6P6PWCG7ZQYO3BNEQ6FLFOTSRRENEH2V5TVXDBEET7YBL4JNWG` |
+| `NEXT_PUBLIC_DISTRIBUTOR_CONTRACT_ID` | String | `CC42VJLNLOCRSJHX3VXSVR3KOZG2YGFNT6TUEF2DV6TXYS6FGYMESQ3V` |
+| `NEXT_PUBLIC_TOKEN_CONTRACT_ID` | String | `CCBJ36QQMCTII5O3NLCUMEU2O3T2WZAM6ZYUNT4WOHGGMOS2R7JSAHDT` |
 
 ---
 
-## 🛠️ Getting Started
+## 🚀 Local Development & Execution Guide
 
 ### Prerequisites
 
-- **Node.js**: `v18.x` or higher
-- **Python**: `v3.10` or higher
-- **Rust**: `1.78.0` with `wasm32v1-none` compilation target
-- **Stellar CLI**: Installed locally
+* **Python 3.10+**
+* **Node.js 18+ & npm**
+* **Rust & `wasm32v1-none` target**
+* **Freighter Wallet Extension** configured to Stellar Testnet
 
-<details>
-<summary><b>🔧 1. Backend Relayer & ML Oracle Setup</b></summary>
+### 1. Local Backend Setup
 
 ```bash
-# Navigate to repository root
-cd NeuroSync
+# Clone repository
+git clone https://github.com/ComputerOracle/NeuroSync-protocol.git
+cd NeuroSync-protocol
 
-# Create virtual environment & activate
+# Set up virtual environment
 python3 -m venv venv
 source venv/bin/activate
 
 # Install requirements
 pip install -r requirements.txt
 
-# Start FastAPI relayer server
-uvicorn api.index:app --reload --port 8000
+# Launch development server
+python3 -m uvicorn api.index:app --reload --port 8000
 ```
 
-</details>
-
-<details>
-<summary><b>💻 2. Next.js Web Frontend Setup</b></summary>
+### 2. Local Frontend Setup
 
 ```bash
-# Navigate to frontend directory
 cd frontend
 
-# Install Node modules
+# Install package dependencies
 npm install
 
-# Run Next.js development server
+# Start Next.js development server
 npm run dev
 ```
 
-Open `http://localhost:3000` in your browser.
-
-</details>
-
-<details>
-<summary><b>🦀 3. Smart Contract Compilation & Test Suite</b></summary>
-
-```bash
-# Compile all workspace contracts to WASM target
-cargo build --target wasm32v1-none --release
-
-# Run Rust unit test suite
-cargo test
-```
-
-</details>
+Navigate to `http://localhost:3000` to interact with the protocol interface.
 
 ---
 
-## 🔐 Environment Variables Specification
+## 🐳 Docker Deployment Verification
 
-### Frontend Environment (`frontend/.env.local`)
-
-```env
-NEXT_PUBLIC_GAS_MASTER_URL=http://localhost:8000
-NEXT_PUBLIC_CONTRACT_ID=CDJ47A6P6PWCG7ZQYO3BNEQ6FLFOTSRRENEH2V5TVXDBEET7YBL4JNWG
-NEXT_PUBLIC_DISTRIBUTOR_CONTRACT_ID=CC42VJLNLOCRSJHX3VXSVR3KOZG2YGFNT6TUEF2DV6TXYS6FGYMESQ3V
-NEXT_PUBLIC_TOKEN_CONTRACT_ID=CCBJ36QQMCTII5O3NLCUMEU2O3T2WZAM6ZYUNT4WOHGGMOS2R7JSAHDT
-```
-
-### Backend Relayer Environment (`.env`)
-
-```env
-ORACLE_SECRET=S...   # Ed25519 Secret Key for ML Signatures
-RELAYER_SECRET=S...  # Stellar Keypair Secret for Gas Sponsoring
-SOROBAN_RPC_URL=https://soroban-testnet.stellar.org:443
-```
-
----
-
-## 🐳 Docker Deployment Guide
-
-To deploy the Python FastAPI Oracle & Gas Master Relayer to containerized hosts (Render, Railway, Fly.io, or AWS App Runner):
+To replicate the Render container environment locally:
 
 ```bash
-# Build production Docker image
-docker build -t neurosync-relayer .
-
-# Launch container with environment configuration
-docker run -d -p 8000:8000 \
+docker build -t neurosync-protocol .
+docker run -p 8000:8000 \
   -e ORACLE_SECRET="S..." \
   -e RELAYER_SECRET="S..." \
   -e SOROBAN_RPC_URL="https://soroban-testnet.stellar.org:443" \
-  neurosync-relayer
+  neurosync-protocol
 ```
 
 ---
 
 ## 🗺️ Protocol Roadmap
 
-- [x] **Phase 1: Core Protocol Infrastructure**: Soroban Rust contracts, Scikit-Learn ML oracle, and zero-gas relayer.
-- [x] **Phase 2: User Interface & Analytics**: Glassmorphic Next.js frontend, multi-page app architecture, and biometrics ledger.
-- [x] **Phase 3: Testnet Hardening & Verification**: Security audit fixes, storage TTL extensions, and native Python SDK refactoring.
-- [ ] **Phase 4: Mainnet Deployment**: Deploy WASM binaries to Stellar Mainnet, fund mainnet relayer treasury, and audit token distribution limits.
-- [ ] **Phase 5: Hardware Integration**: Wearable device SDK connectors (Oura Ring, Apple HealthKit, Garmin, Whoop) and Zero-Knowledge biometrics proofs (zk-SNARKs).
+- [x] **Phase 1: Biometric ML Oracle Core**: Train classification ensemble on biometric sleep telemetry; implement Ed25519 cryptographic payload signing module.
+- [x] **Phase 2: Soroban Smart Contract Architecture**: Develop and compile `neurosync_core` signature verification contract; deploy SEP-41 compliant token and reward distributor contracts on Testnet.
+- [x] **Phase 3: Gasless Relayer Infrastructure**: Build backend relayer service to wrap user payloads in Stellar Fee-Bump envelopes; deploy Dockerized API container to Render with automated auto-deploy hooks.
+- [x] **Phase 4: Client Application & Web3 Integration**: Build Next.js Web UI with Freighter wallet integration; deploy frontend to Vercel and verify zero-gas end-to-end execution.
+- [ ] **Phase 5: Hardware Integration & Mainnet Scaling**: Direct integration with Apple HealthKit, Oura Cloud API, and Garmin Connect SDK; third-party Soroban smart contract security audit and Mainnet migration.
 
 ---
 
-## 📄 License
+## 📜 License
 
-NeuroSync Protocol is open-source software released under the MIT License.
+This project is open-source software licensed under the **MIT License**.
+
+---
+
+## 🤝 Acknowledgments & Ecosystem Support
+
+NeuroSync is built for the **Stellar & Soroban Ecosystem**. Special thanks to the Stellar Development Foundation for developer tooling and testnet infrastructure support.
