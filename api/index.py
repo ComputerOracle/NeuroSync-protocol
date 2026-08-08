@@ -16,11 +16,12 @@ from api.relayer import (
     ProofPayloadRequest
 )
 
-# Initialize FastAPI application
+# Initialize FastAPI application with disabled trailing slash redirection
 app = FastAPI(
     title="NeuroSync Protocol Oracle & Gas Master Relayer",
     description="DeSci Web3 Cryptographic Oracle and Gas Master FeeBump Relayer for Stellar smart contracts.",
-    version="1.0.0"
+    version="1.0.0",
+    redirect_slashes=False
 )
 
 # Add CORS middleware to support frontend integration
@@ -69,6 +70,7 @@ try:
             print(f"Notice: Failed saving participant {address}: {e}")
 
     @app.get("/api/v1/participants")
+    @app.get("/api/v1/participants/")
     def get_participants():
         participants = []
         if os.path.exists(PARTICIPANTS_FILE):
@@ -97,6 +99,8 @@ class UserData(BaseModel):
 
 
 @app.get("/")
+@app.get("/api")
+@app.get("/api/")
 def read_root():
     """
     Root status endpoint to verify the Oracle & Relayer status and retrieve public keys.
@@ -110,6 +114,7 @@ def read_root():
 
 
 @app.post("/api/generate_signature")
+@app.post("/api/generate_signature/")
 async def generate_signature(data: UserData):
     """
     Predicts sleep quality score using scikit-learn model, constructs a verified
@@ -185,6 +190,7 @@ async def generate_signature(data: UserData):
 
 
 @app.post("/api/v1/submit-proof")
+@app.post("/api/v1/submit-proof/")
 async def submit_proof(data: ProofPayloadRequest):
     """
     Gas Master Relayer endpoint:
