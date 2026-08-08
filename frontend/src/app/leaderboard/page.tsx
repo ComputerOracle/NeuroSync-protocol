@@ -35,7 +35,7 @@ export default function LeaderboardPage() {
       setLoading(true);
       try {
         // 1. Fetch participants from backend relayer API
-        const relayerUrl = (process.env.NEXT_PUBLIC_GAS_MASTER_URL || process.env.NEXT_PUBLIC_ORACLE_API_URL || "http://localhost:8000").replace(/\/+$/, "");
+        const relayerUrl = (process.env.NEXT_PUBLIC_GAS_MASTER_URL || process.env.NEXT_PUBLIC_ORACLE_API_URL || "https://neurosync-protocol.onrender.com").replace(/\/+$/, "");
         let apiParticipants: string[] = [];
         try {
           const apiRes = await fetch(`${relayerUrl}/api/v1/participants`);
