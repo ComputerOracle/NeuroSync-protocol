@@ -69,6 +69,10 @@ try:
         except Exception as e:
             print(f"Notice: Failed saving participant {address}: {e}")
 
+    @app.get("/participants")
+    @app.get("/participants/")
+    @app.get("/api/participants")
+    @app.get("/api/participants/")
     @app.get("/api/v1/participants")
     @app.get("/api/v1/participants/")
     def get_participants():
@@ -113,8 +117,12 @@ def read_root():
     }
 
 
+@app.post("/generate_signature")
+@app.post("/generate_signature/")
 @app.post("/api/generate_signature")
 @app.post("/api/generate_signature/")
+@app.post("/api/v1/generate_signature")
+@app.post("/api/v1/generate_signature/")
 async def generate_signature(data: UserData):
     """
     Predicts sleep quality score using scikit-learn model, constructs a verified
@@ -189,8 +197,18 @@ async def generate_signature(data: UserData):
         )
 
 
+@app.post("/submit-proof")
+@app.post("/submit-proof/")
+@app.post("/submit_proof")
+@app.post("/submit_proof/")
+@app.post("/api/submit-proof")
+@app.post("/api/submit-proof/")
+@app.post("/api/submit_proof")
+@app.post("/api/submit_proof/")
 @app.post("/api/v1/submit-proof")
 @app.post("/api/v1/submit-proof/")
+@app.post("/api/v1/submit_proof")
+@app.post("/api/v1/submit_proof/")
 async def submit_proof(data: ProofPayloadRequest):
     """
     Gas Master Relayer endpoint:
